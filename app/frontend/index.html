@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jaick's Todo App</title>
+    <style>
+        body { font-family: Arial; max-width: 500px; margin: 50px auto; }
+        input { padding: 8px; width: 70%; }
+        button { padding: 8px 16px; }
+        li { padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Todo App</h1>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTodo()">Add</button>
+    <ul id="todoList"></ul>
+
+    <script>
+        const API_URL = 'http://localhost:5000';
+
+        async function loadTodos() {
+            const res = await fetch(`${API_URL}/todos`);
+            const todos = await res.json();
+            const list = document.getElementById('todoList');
+            list.innerHTML = '';
+            todos.forEach(todo => {
+                const li = document.createElement('li');
+                li.textContent = todo.task;
+                list.appendChild(li);
+            });
+        }
+
+        async function addTodo() {
+            const input = document.getElementById('taskInput');
+            await fetch(`${API_URL}/todos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ task: input.value })
+            });
+            input.value = '';
+            loadTodos();
+        }
+
+        loadTodos();
+    </script>
+</body>
+</html>
