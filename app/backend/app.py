@@ -15,7 +15,7 @@ def get_db_connection():
                 host="db",
                 database="tododb",
                 user="postgres",
-                password="secret"
+                password=os.environ.get('DB_PASSWORD', 'secret')
             )
             return conn
         except psycopg2.OperationalError:
@@ -60,4 +60,4 @@ def add_todo():
 
 if __name__ == '__main__':
     init_db()
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)  # nosec B104 - required for Docker port binding
