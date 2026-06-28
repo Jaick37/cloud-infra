@@ -29,7 +29,7 @@ jobs:
       - name: Build backend image
         run: docker build -t todo-backend:${{ github.sha }} ./app/backend
 
-     - name: Generate self-signed SSL cert for build
+      - name: Generate self-signed SSL cert for build
         run: |
           mkdir -p app/frontend/ssl
           openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
