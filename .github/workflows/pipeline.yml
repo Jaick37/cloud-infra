@@ -51,7 +51,11 @@ jobs:
 
       - name: Run backend container
         run: docker run -d -p 5000:5000 --name backend-test todo-backend:${{ github.sha }}
-
+      - name: Check backend container status
+        run: |
+          sleep 3
+          docker ps -a
+          docker logs backend-test
       - name: Wait for app to be ready
         run: sleep 5
 
